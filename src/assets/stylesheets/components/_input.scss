@@ -1,0 +1,14 @@
+.input {
+
+  font-family: $font-default;
+  font-size: 1em;
+  line-height: 1.4;
+  padding: .8em 1em;
+  border-radius: .4em;
+  border: 0;
+
+  &::placeholder {
+    color: $blue-grey-200;
+  }
+
+}

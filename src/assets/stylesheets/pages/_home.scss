@@ -1,80 +1,95 @@
 .page-home {
 
-  .map,
-  .map-base {
-    height: 50vh;
-  }
-
   main {
-    padding: 0;
+    padding-top: 0;
   }
 
-  .popup-gatsby {
-    display: flex;
-    width: 36em;
-    padding: 1em;
-    border-radius: 1em;
-  }
+  .hero {
 
-  .popup-gatsby-image {
-    display: flex;
-    align-items: center;
-    margin-right: 2em;
-  }
+    position: relative;
 
-  .popup-gatsby-content {
-
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-direction: column;
-    align-content: center;
-    text-align: left;
-    padding-right: 1em;
-
-    h1 {
-      margin: 0 0 .2em;
-    }
-    p {
-      margin: 0 0 .5em;
-    }
-
-  }
-
-  .gatsby-astronaut {
-
-    overflow: hidden;
-    width: 10em;
-    height: 10em;
-    background-color: $gatsby-purple;
-    border-radius: 100%;
-    border: solid 6px $gatsby-purple;
-    margin: 0;
-
-    img {
+    &:after,
+    &:before {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: '';
       width: 100%;
-      height: auto;
+      height: 100%;
+
+    }
+
+    &:before {
+      z-index: 1;
+      opacity: .5;
+      background-color: white;
+    }
+
+    &:after {
+      z-index: 2;
+      opacity: .3;
+      background-color: $launchtime-cyan;
+    }
+
+  }
+
+  .hero-content {
+
+    position: relative;
+    z-index: 3;
+    padding: 5em 0;
+
+    .form {
+      font-size: 1.2em;
+      width: 20em;
+    }
+
+    &,
+    .form-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .form-row,
+    .label,
+    .input {
+      width: 100%;
+    }
+
+    .label {
+      font-size: .8em;
+      font-weight: bold;
+      color: white;
+      background-color: $launchtime-purple;
+      padding: .6em 1.2em;
+      border-radius: .4em .4em 0 0;
+    }
+
+    .input {
+      border-radius: 0 0 .4em .4em;
+    }
+
+    .button {
+      font-size: .8em;
     }
 
   }
 
 }
 
-.home-start {
+.home-intro {
 
-  padding-top: 4em;
-  padding-bottom: 4em;
+  padding: 4em 0;
 
   h2 {
-    margin-top: 0;
+    font-size: 2.5em;
   }
 
   p {
-    margin-bottom: 1.2em;
-  }
-
-  pre {
-    margin-bottom: 1.5em;
+    font-size: 1.5em;
   }
 
 }

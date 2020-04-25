@@ -51,3 +51,6 @@ gatsby new new-gatsby-site https://github.com/colbyfayock/gatsby-starter-leaflet
 yarn develop
 ```
 * You should now be running a new Gatsby site locally! 🎉
+
+## Credits
+Homepage photo https://unsplash.com/photos/E6HjQaB7UEA
