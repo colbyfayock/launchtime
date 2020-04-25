@@ -31,3 +31,19 @@
   }
 
 }
+
+.search-results {
+
+  & > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .business-card {
+    padding: 1em 0;
+    border-bottom: solid 1px $blue-grey-100;
+    margin: 0 0 1em;
+  }
+
+}

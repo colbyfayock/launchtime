@@ -5,7 +5,7 @@ import { Map as BaseMap, TileLayer, ZoomControl } from 'react-leaflet';
 import { useConfigureLeaflet, useMapServices, useRefEffect } from 'hooks';
 import { isDomAvailable } from 'lib/util';
 
-const DEFAULT_MAP_SERVICE = 'OpenStreetMap';
+const DEFAULT_MAP_SERVICE = 'Mapbox Streets';
 
 const Map = ( props ) => {
   const { children, className, defaultBaseMap = DEFAULT_MAP_SERVICE, mapEffect, ...rest } = props;
