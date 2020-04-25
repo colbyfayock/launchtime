@@ -5,6 +5,11 @@
   font-weight: bold;
   margin: 0;
 
+  &,
+  a {
+    color: $launchtime-purple-dark;
+  }
+
   img {
     display: block;
     width: 1.6em;

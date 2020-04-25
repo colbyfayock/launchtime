@@ -77,6 +77,8 @@ $indigo-A100: #8c9eff;
 $indigo-A200: #536dfe;
 $indigo-A400: #3d5afe;
 $indigo-A700: #304ffe;
+$indigo-A800: #0121d8;
+$indigo-A900: #011484;
 
 $blue-50: #e3f2fd;
 $blue-100: #bbdefb;
@@ -289,5 +291,6 @@ $full-white: rgba(255, 255, 255, 1);
 $dark-white: rgba(255, 255, 255, 0.87);
 $light-white: rgba(255, 255, 255, 0.54);
 
-$launchtime-purple: $deep-purple-A400;
+$launchtime-purple: $indigo-A800;
+$launchtime-purple-dark: $indigo-A900;
 $launchtime-cyan: $cyan-400;
