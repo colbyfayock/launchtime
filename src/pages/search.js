@@ -1,6 +1,8 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
+import { isDomAvailable } from 'lib/util';
+
 import Layout from 'components/Layout';
 import Container from 'components/Container';
 import Map from 'components/Map';
@@ -16,8 +18,12 @@ const DEFAULT_CENTER = [DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng];
 const DEFAULT_ZOOM = 14;
 
 const SearchPage = () => {
-  const currentUrl = new URL(window.location.href);
-  const what = currentUrl.searchParams.get('what');
+  let what;
+
+  if ( isDomAvailable() ) {
+    const currentUrl = new URL(window.location.href);
+    what = currentUrl.searchParams.get('what');
+  }
 
   async function mapEffect({ leafletElement: map } = {}) {
     if ( !map ) return;
