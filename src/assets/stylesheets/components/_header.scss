@@ -1,36 +1,49 @@
-header {
+.header {
 
   width: 100%;
   background-color: white;
+  border-bottom: solid 1px $launchtime-cyan;
 
   .container {
     display: flex;
     justify-content: space-between;
     height: 4em;
     line-height: 4em;
+    padding: 0 1em;
+  }
+
+  a {
+    display: block;
+    text-decoration: none;
   }
 
   ul {
+
     list-style: none;
     margin: 0;
     padding: 0;
+
+    a {
+      padding: 0 .5em;
+    }
+
   }
 
   li {
     display: inline-block;
   }
 
-  a {
-    display: block;
-    text-decoration: none;
-    padding: 0 .5em;
-  }
-
 }
 
 .header-logo {
-  display: flex;
-  align-items: center;
+
   font-size: 1.4em;
-  margin: 0;
+
+  &,
+  a {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
 }

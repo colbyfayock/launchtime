@@ -6,10 +6,10 @@ import Logo from 'components/Logo';
 
 const Header = () => {
   return (
-    <header>
-      <Container type="content">
+    <header className="header">
+      <Container>
         <p className="header-logo">
-          <Logo />
+          <Link to="/"><Logo /></Link>
         </p>
         <ul>
           <li>

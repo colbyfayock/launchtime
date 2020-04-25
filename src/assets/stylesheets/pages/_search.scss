@@ -1,0 +1,33 @@
+.page-search {
+
+  main {
+    padding: 0;
+  }
+
+}
+
+.search {
+
+  display: flex;
+  height: 100%;
+
+}
+
+.search-map {
+  height: 100%;
+  width: 65vw;
+}
+
+.search-sidebar {
+  width: 35vw;
+  padding: 1em;
+}
+
+.search-form {
+
+  .input {
+    width: 100%;
+    border: solid 2px $blue-grey-200;
+  }
+
+}

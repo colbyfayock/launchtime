@@ -1,4 +1,5 @@
 import React from 'react';
+import { navigate } from 'gatsby';
 import Helmet from 'react-helmet';
 
 import Layout from 'components/Layout';
@@ -15,8 +16,26 @@ import heroImage from 'assets/images/people-in-restaurant-eating.jpg';
 
 const IndexPage = () => {
 
-  function handleOnSearchSubmit(e) {
-    console.log('e', e)
+  function handleOnSearchSubmit(e = {}) {
+    e.preventDefault();
+    const { currentTarget = {} } = e;
+    const { elements } = currentTarget;
+
+    const fields = Array.from(elements).map(element => {
+      const id = element.id;
+      const name = element.name;
+      const value = element.value;
+      return {
+        id,
+        name,
+        value
+      }
+    });
+
+    const what = fields.find(field => field.name === 'search-what').value;
+    const where = fields.find(field => field.name === 'search-where').value;
+
+    navigate(`/search?what=${encodeURIComponent(what)}&where=${encodeURIComponent(where)}`);
   }
 
   return (
