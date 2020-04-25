@@ -15,12 +15,63 @@
 .business-card-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .business-card-title {
-  font-size: 1.5em;
+  color: $blue-grey-900;
+  font-size: 1.6em;
   font-weight: 700;
   margin: 0 0 .2em;
+}
+
+.business-card-meta {
+
+  font-size: .75em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  li {
+
+    margin-bottom: .2em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+  }
+
+  span {
+    display: flex;
+    justify-content: flex-end;
+    color: $blue-grey-100;
+  }
+
+}
+
+.business-card-rating {
+
+  svg {
+    margin: 0 .1em;
+  }
+
+}
+
+.business-card-rating-highlight {
+  color: $launchtime-cyan;
+}
+
+.business-card-cost {
+
+  svg {
+    margin: 0 -.1em;
+  }
+
+}
+
+.business-card-cost-highlight {
+  color: $launchtime-purple;
 }
 
 .business-card-content {
@@ -29,6 +80,7 @@
 
 .business-card-tags {
   overflow: hidden;
+  color: $blue-grey-700;
   font-size: .8em;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -48,7 +100,7 @@
 
   li {
 
-    margin: 0 .2em;
+    margin: 0 .3em;
 
     &:first-child {
       margin-left: 0;

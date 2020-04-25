@@ -1,6 +1,5 @@
 import React from 'react';
 import Helmet from 'react-helmet';
-import { FaPhone, FaDirections, FaUtensils } from 'react-icons/fa';
 
 import { isDomAvailable } from 'lib/util';
 
@@ -10,7 +9,9 @@ import Map from 'components/Map';
 import Form from 'components/Form';
 import FormRow from 'components/FormRow';
 import Input from 'components/Input';
-import Button from 'components/Button';
+import BusinessCard from 'components/BusinessCard';
+
+import { businesses } from 'data/businesses';
 
 const DEFAULT_LOCATION = {
   lat: 38.9072,
@@ -52,54 +53,13 @@ const SearchPage = () => {
           </Form>
           <div className="search-results">
             <ul>
-              <li>
-                <div className="business-card">
-                  <img src="https://www.placecage.com/200/200" alt="Picture of DC Pizza" />
-                  <div className="business-card-content">
-                    <div className="business-card-header">
-                      <p className="business-card-title">
-                        DC Pizza
-                      </p>
-                    </div>
-                    <p className="business-card-tags">
-                      Pizza, Wings, Sandwiches, Salads
-                    </p>
-                    <div className="business-card-actions">
-                      <ul className="business-card-actions-info">
-                        <li>
-                          <Button>
-                            <span className="business-card-actions-info-icon">
-                              <FaPhone />
-                            </span>
-                            Call
-                          </Button>
-                        </li>
-                        <li>
-                          <Button>
-                            <span className="business-card-actions-info-icon">
-                              <FaDirections />
-                            </span>
-                            Map
-                          </Button>
-                        </li>
-                        <li>
-                          <Button>
-                            <span className="business-card-actions-info-icon">
-                              <FaUtensils />
-                            </span>
-                            Menu
-                          </Button>
-                        </li>
-                      </ul>
-                      <div className="business-card-actions-order">
-                        <Button color="cyan">
-                          Order Now
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
+              {businesses.map((business, i) => {
+                return (
+                  <li key={`Business-${i}`}>
+                    <BusinessCard {...business} />
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </div>

@@ -41,9 +41,19 @@
   }
 
   .business-card {
-    padding: 1em 0;
+
+    font-size: 1.4vw;
+    padding: 1.5em 0;
     border-bottom: solid 1px $blue-grey-100;
-    margin: 0 0 1em;
+
+    .business-card-actions-order {
+
+      .button {
+        font-size: 1.1vw;
+      }
+
+    }
+
   }
 
 }
