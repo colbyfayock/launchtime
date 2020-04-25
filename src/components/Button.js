@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ClassName from 'models/ClassName';
+import ClassName from 'models/classname';
 
 const Button = ({ children, className, color, ...rest }) => {
   const buttonClass = new ClassName('button');
