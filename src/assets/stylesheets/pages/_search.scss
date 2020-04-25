@@ -1,6 +1,11 @@
 .page-search {
 
+  .wrapper {
+    height: 100vh;
+  }
+
   main {
+    min-height: 0;
     padding: 0;
   }
 
@@ -14,12 +19,14 @@
 }
 
 .search-map {
-  height: 100%;
-  width: 65vw;
+  display: flex;
+  height: calc(100vh - 4em - 2em - 1px);
+  width: 65%;
 }
 
 .search-sidebar {
-  width: 35vw;
+  overflow-y: scroll;
+  width: 35%;
   padding: 1em;
 }
 

@@ -1,6 +1,7 @@
 .business-card {
 
   display: flex;
+  overflow: hidden;
   align-items: center;
 
   img {
@@ -19,9 +20,13 @@
 }
 
 .business-card-title {
+  overflow: hidden;
   color: $blue-grey-900;
   font-size: 1.6em;
   font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 .2em 0 0;
   margin: 0 0 .2em;
 }
 
@@ -75,6 +80,7 @@
 }
 
 .business-card-content {
+  min-width: 0;
   width: 100%;
 }
 

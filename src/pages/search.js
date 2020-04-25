@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Helmet from 'react-helmet';
 
 import { isDomAvailable } from 'lib/util';
+import { useSearch } from 'hooks';
 
 import Layout from 'components/Layout';
 import Container from 'components/Container';
@@ -28,6 +29,22 @@ const SearchPage = () => {
     what = currentUrl.searchParams.get('what');
   }
 
+  const [search, updateSearch ] = useState({
+    query: what
+  });
+  const { query } = search;
+
+  const { results } = useSearch({
+    query,
+    data: businesses,
+    keys: [
+      'name',
+      'tags'
+    ]
+  });
+
+  const businessResults = results.map(result => result.item );
+
   async function mapEffect({ leafletElement: map } = {}) {
     if ( !map ) return;
   }
@@ -39,6 +56,16 @@ const SearchPage = () => {
     mapEffect
   };
 
+  function handleOnSearchChange({ currentTarget } = {}) {
+    const value = currentTarget.value;
+    updateSearch(prev => {
+      return {
+        ...prev,
+        query: value
+      }
+    })
+  }
+
   return (
     <Layout pageName="search">
       <Helmet>
@@ -48,12 +75,12 @@ const SearchPage = () => {
         <div className="search-sidebar">
           <Form className="search-form">
             <FormRow>
-              <Input defaultValue={what} placeholder="Ex: pizza, bbq, breakfast" />
+              <Input defaultValue={what} placeholder="Ex: pizza, bbq, breakfast" onChange={handleOnSearchChange} />
             </FormRow>
           </Form>
           <div className="search-results">
             <ul>
-              {businesses.map((business, i) => {
+              {businessResults.map((business, i) => {
                 return (
                   <li key={`Business-${i}`}>
                     <BusinessCard {...business} />
