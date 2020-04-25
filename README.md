@@ -1,6 +1,11 @@
-# 🍃 Gatsby Leaflet Starter
+# LaunchTime
 
-Jumpstart your next Gatsby mapping project with Leaflet!
+Lunch doesn't have to be rocket science!
+
+## What is this?
+Demo for mapping app using [Gatsby](https://www.gatsbyjs.org/) and [React Leaflet](https://react-leaflet.js.org).
+
+Create your own with 🍃 [Gatsby Leaflet Starter](https://github.com/colbyfayock/gatsby-starter-leaflet)!
 
 ## ⚡ Quick Deploy
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/colbyfayock/gatsby-starter-leaflet) [![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/import/project?template=https://github.com/colbyfayock/gatsby-starter-leaflet)

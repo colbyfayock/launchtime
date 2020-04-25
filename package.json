@@ -1,7 +1,7 @@
 {
-  "name": "gatsby-starter-leaflet",
-  "description": "A Gatsby starter with Leafet!",
-  "version": "0.2.4",
+  "name": "launchtime",
+  "description": "Lunch doesn't have to be rocket science!",
+  "version": "0.1.0",
   "author": "Colby Fayock <hello@colbyfayock.com>",
   "dependencies": {
     "gatsby": "^2.20.12",
@@ -67,9 +67,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/colbyfayock/gatsby-starter-leaflet"
+    "url": "https://github.com/colbyfayock/launchtime"
   },
   "bugs": {
-    "url": "https://github.com/colbyfayock/gatsby-starter-leaflet/issues"
+    "url": "https://github.com/colbyfayock/launchtime/issues"
   }
 }
