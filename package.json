@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "author": "Colby Fayock <hello@colbyfayock.com>",
   "dependencies": {
+    "@turf/turf": "^5.1.6",
     "fuse.js": "^5.2.3",
     "gatsby": "^2.20.12",
     "gatsby-plugin-react-helmet": "^3.2.1",

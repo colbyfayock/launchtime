@@ -7,6 +7,10 @@ export const businesses = [
       'Wings',
       'Sandwiches',
       'Salads'
+    ],
+    location: [
+      38.909419,
+      -77.042614
     ]
   },
   {
@@ -16,6 +20,10 @@ export const businesses = [
       'Late Night Snacks',
       'Happy Hour',
       'Pizza'
+    ],
+    location: [
+      38.903157,
+      -77.047260
     ]
   },
   {
@@ -25,6 +33,10 @@ export const businesses = [
       'Quick Bite',
       'Eco-Friendly Bar',
       'Pizza'
+    ],
+    location: [
+      38.900869,
+      -77.023732
     ]
   },
   {
@@ -34,6 +46,10 @@ export const businesses = [
       'American (Traditional)',
       'Coffee & Tea',
       'Breakfast & Brunch'
+    ],
+    location: [
+      38.900511,
+      -77.044527
     ]
   },
   {
@@ -43,6 +59,10 @@ export const businesses = [
       'Vietnamese',
       'American (New)',
       'Pubs'
+    ],
+    location: [
+      38.903113,
+      -77.045840
     ]
   },
 ]

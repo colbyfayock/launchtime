@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Helmet from 'react-helmet';
+import L from 'leaflet';
+import { center, featureCollection, point } from '@turf/turf';
 
 import { isDomAvailable } from 'lib/util';
 import { useSearch } from 'hooks';
@@ -15,13 +17,15 @@ import BusinessCard from 'components/BusinessCard';
 import { businesses } from 'data/businesses';
 
 const DEFAULT_LOCATION = {
-  lat: 38.9072,
-  lng: -77.0369
+  lat: 0,
+  lng: 0
 };
 const DEFAULT_CENTER = [DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng];
 const DEFAULT_ZOOM = 14;
 
 const SearchPage = () => {
+  const featureGroupRef = useRef()
+
   let what;
 
   if ( isDomAvailable() ) {
@@ -45,16 +49,48 @@ const SearchPage = () => {
 
   const businessResults = results.map(result => result.item );
 
-  async function mapEffect({ leafletElement: map } = {}) {
-    if ( !map ) return;
-  }
-
   const mapSettings = {
     className: 'search-map',
     center: DEFAULT_CENTER,
     zoom: DEFAULT_ZOOM,
     mapEffect
   };
+
+  /**
+   * mapEffect
+   */
+
+  async function mapEffect({ leafletElement: map } = {}) {
+    if ( !map ) return;
+    let firstRun = false;
+
+    if ( !featureGroupRef.current ) {
+      firstRun = true;
+      featureGroupRef.current = L.featureGroup();
+    }
+
+    featureGroupRef.current.eachLayer(layer => {
+      featureGroupRef.current.removeLayer(layer)
+      map.removeLayer(layer);
+    });
+
+    businessResults.forEach(result => {
+      const { location } = result;
+      const marker = L.marker(location);
+      featureGroupRef.current.addLayer(marker);
+      map.addLayer(marker);
+    });
+
+    if ( firstRun ) {
+      const bounds = featureGroupRef.current.getBounds();
+      console.log('bounds', bounds)
+      map.fitBounds(bounds);
+    }
+  }
+
+  /**
+   * handleOnSearchChange
+   */
 
   function handleOnSearchChange({ currentTarget } = {}) {
     const value = currentTarget.value;
