@@ -39,7 +39,7 @@ const BusinessCard = ({ thumb, name, tags = [] }) => {
             <li>
               <Button>
                 <span className="business-card-actions-info-icon">
-                  <FaPhone />
+                  <FaPhone className="icon-phone" />
                 </span>
                 Call
               </Button>
