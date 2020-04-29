@@ -17,22 +17,6 @@
     text-decoration: none;
   }
 
-  ul {
-
-    list-style: none;
-    margin: 0;
-    padding: 0;
-
-    a {
-      padding: 0 .5em;
-    }
-
-  }
-
-  li {
-    display: inline-block;
-  }
-
 }
 
 .header-logo {
@@ -44,6 +28,30 @@
     display: flex;
     align-items: center;
     margin: 0;
+  }
+
+}
+
+.header-account {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-avatar {
+
+  overflow: hidden;
+  width: 3em;
+  height: 3em;
+  background-color: $blue-grey-600;
+  border-radius: 100%;
+  margin: 0;
+  border: solid 2px $launchtime-purple;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
 }

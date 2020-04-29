@@ -28,9 +28,23 @@
 
 .map-marker {
 
-  &[class*="shadow"] {
-    filter: blur(5px);
-    opacity: .7;
+  display: block;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  border-radius: 100%;
+
+  &:after {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: blue;
+    transform: rotate(45deg);
   }
 
 }

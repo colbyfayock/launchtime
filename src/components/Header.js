@@ -11,11 +11,11 @@ const Header = () => {
         <p className="header-logo">
           <Link to="/"><Logo /></Link>
         </p>
-        <ul>
-          <li>
-            <Link to="/search">Search</Link>
-          </li>
-        </ul>
+        <div className="header-account">
+          <p className="header-avatar">
+            <img src="/images/avatar.jpg" alt="Colby Fayock" />
+          </p>
+        </div>
       </Container>
     </header>
   );

@@ -11,5 +11,14 @@ module.exports = {
       },
     },
     'gatsby-plugin-react-leaflet',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'LaunchTime',
+        short_name: 'LaunchTime',
+        start_url: '/',
+        icon: './src/assets/images/launchtime-one-color.png'
+      },
+    },
   ],
 };

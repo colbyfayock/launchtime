@@ -12,8 +12,6 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 import Logo from 'components/Logo';
 
-import heroImage from 'assets/images/people-in-restaurant-eating.jpg';
-
 const IndexPage = () => {
 
   function handleOnSearchSubmit(e = {}) {
@@ -45,7 +43,7 @@ const IndexPage = () => {
       </Helmet>
 
       <Container>
-        <Hero backgroundImage={heroImage}>
+        <Hero backgroundImage="/images/people-in-restaurant-eating.jpg">
           <Form onSubmit={handleOnSearchSubmit}>
             <FormRow>
               <Label htmlFor="search-what">

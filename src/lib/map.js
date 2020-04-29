@@ -41,3 +41,28 @@ export function getCurrentLocation() {
     );
   });
 }
+
+
+/**
+ * latlngFromFeature
+ */
+
+export function latlngFromFeature(feature = {}) {
+  const { geometry = {} } = feature;
+  const { coordinates = [], type } = geometry;
+
+  if ( type !== 'Point' ) {
+    throw new Error(`latlngFromFeature: Invalid geometry type ${type}`)
+  }
+
+  return [coordinates[1], coordinates[0]];
+}
+
+/**
+ * findFeatureById
+ */
+
+export function findFeatureById(features, id) {
+  if ( !Array.isArray(features) ) return;
+  return features.find(({ properties } = {}) => properties?.id === id);
+}

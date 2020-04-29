@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import L from 'leaflet';
-import { center, featureCollection, point } from '@turf/turf';
 
+import { latlngFromFeature, findFeatureById } from 'lib/map';
 import { isDomAvailable } from 'lib/util';
 import { useSearch } from 'hooks';
 
@@ -14,7 +14,10 @@ import FormRow from 'components/FormRow';
 import Input from 'components/Input';
 import BusinessCard from 'components/BusinessCard';
 
-import { businesses } from 'data/businesses';
+import businessesGeojson from 'data/businesses.json';
+import utensilsIcon from 'assets/images/utensils-marker.png';
+import utensilsIconActive from 'assets/images/utensils-marker-active.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 const DEFAULT_LOCATION = {
   lat: 0,
@@ -27,10 +30,29 @@ const SearchPage = () => {
   const featureGroupRef = useRef()
 
   let what;
+  let icon;
+  let iconActive;
 
   if ( isDomAvailable() ) {
     const currentUrl = new URL(window.location.href);
+
     what = currentUrl.searchParams.get('what');
+
+    icon = new L.Icon({
+      iconUrl: utensilsIcon,
+      iconSize: [26, 26],
+      popupAnchor: [0, -15],
+      shadowUrl: markerShadow,
+      shadowAnchor: [13, 28]
+    });
+
+    iconActive = new L.Icon({
+      iconUrl: utensilsIconActive,
+      iconSize: [26, 26],
+      popupAnchor: [0, -15],
+      shadowUrl: markerShadow,
+      shadowAnchor: [13, 28]
+    });
   }
 
   const [search, updateSearch ] = useState({
@@ -38,12 +60,16 @@ const SearchPage = () => {
   });
   const { query } = search;
 
+  const [activeBusiness, updateActiveBusiness] = useState();
+
+  const businesses = businessesGeojson?.features.map(feature => feature);
+
   const { results } = useSearch({
     query,
     data: businesses,
     keys: [
-      'name',
-      'tags'
+      'properties.name',
+      'properties.tags'
     ]
   });
 
@@ -75,15 +101,28 @@ const SearchPage = () => {
     });
 
     businessResults.forEach(result => {
-      const { location } = result;
-      const marker = L.marker(location);
+      const { properties = {} } = result;
+      const { id } = properties;
+      const location = latlngFromFeature(result);
+
+      const isActive = id === activeBusiness?.properties?.id;
+
+      const marker = L.marker(location, {
+        icon: isActive ? iconActive : icon,
+        zIndexOffset: 999,
+        riseOnHover: true,
+        id
+      });
+
+      marker.on('mouseover', handleOnMarkerHoverOn);
+      marker.on('mouseout', handleOnMarkerHoverOff);
+
       featureGroupRef.current.addLayer(marker);
       map.addLayer(marker);
     });
 
     if ( firstRun ) {
       const bounds = featureGroupRef.current.getBounds();
-      console.log('bounds', bounds)
       map.fitBounds(bounds);
     }
   }
@@ -102,6 +141,40 @@ const SearchPage = () => {
     })
   }
 
+  /**
+   * handleOnBusinessHoverOn
+   */
+
+  function handleOnBusinessHoverOn({ currentTarget = {} } = {}) {
+    const business = findFeatureById(businesses, currentTarget?.id);
+    updateActiveBusiness(business);
+  }
+
+  /**
+   * handleOnBusinessHoverOff
+   */
+
+  function handleOnBusinessHoverOff() {
+    updateActiveBusiness(undefined);
+  }
+
+  /**
+   * handleOnMarkerHoverOn
+   */
+
+  function handleOnMarkerHoverOn({ target = {} } = {}) {
+    const business = findFeatureById(businesses, target?.options?.id);
+    updateActiveBusiness(business);
+  }
+
+  /**
+   * handleOnMarkerHoverOff
+   */
+
+  function handleOnMarkerHoverOff() {
+    updateActiveBusiness(undefined);
+  }
+
   return (
     <Layout pageName="search">
       <Helmet>
@@ -115,11 +188,24 @@ const SearchPage = () => {
             </FormRow>
           </Form>
           <div className="search-results">
+            <p className="search-results-count">
+              Showing <strong>{ businessResults.length }</strong> results...
+            </p>
             <ul>
-              {businessResults.map((business, i) => {
+              {businessResults.map((business = {}, i) => {
+                const { properties = {} } = business;
+                const { id } = properties;
+                const location = latlngFromFeature(business);
+                const isActive = activeBusiness?.properties?.id === id;
+                let itemClass = 'search-results-item';
+
+                if ( isActive ) {
+                  itemClass = `${itemClass} search-results-item-active`
+                }
+
                 return (
-                  <li key={`Business-${i}`}>
-                    <BusinessCard {...business} />
+                  <li key={id} id={id} className={itemClass} onMouseEnter={handleOnBusinessHoverOn} onMouseLeave={handleOnBusinessHoverOff}>
+                    <BusinessCard location={location} {...properties} />
                   </li>
                 )
               })}

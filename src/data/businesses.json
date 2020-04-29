@@ -1,0 +1,106 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "dc-pizza",
+        "thumb": "/images/dc-pizza.jpg",
+        "name": "DC Pizza",
+        "tags": [
+          "Pizza",
+          "Wings",
+          "Sandwiches",
+          "Salads"
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.042614,
+          38.909419
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "homeslyce-dc",
+        "thumb": "/images/home-slyce.jpg",
+        "name": "HomeSlyce DC",
+        "tags": [
+          "Late Night Snacks",
+          "Happy Hour",
+          "Pizza"
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.047260,
+          38.903157
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "pi-pizzeria",
+        "thumb": "/images/pi-pizzeria.jpg",
+        "name": "Pi Pizzeria",
+        "tags": [
+          "Quick Bite",
+          "Eco-Friendly Bar",
+          "Pizza"
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.023732,
+          38.900869
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "founding-farmers-dc",
+        "thumb": "/images/founding-farmers.jpg",
+        "name": "Founding Farmers DC",
+        "tags": [
+          "American (Traditional)",
+          "Coffee & Tea",
+          "Breakfast & Brunch"
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.044527,
+          38.900511
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "foggy-bottom-pub",
+        "thumb": "/images/froggy-bottom.jpg",
+        "name": "Froggy Bottom Pub",
+        "tags": [
+          "Vietnamese",
+          "American (New)",
+          "Pubs"
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -77.045840,
+          38.903113
+        ]
+      }
+    }
+  ]
+}

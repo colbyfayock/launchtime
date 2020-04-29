@@ -27,19 +27,31 @@
 .search-sidebar {
   overflow-y: scroll;
   width: 35%;
-  padding: 1em;
+  padding: 1em 0;
 }
 
 .search-form {
 
+  padding: 0 1em;
+
   .input {
+
     width: 100%;
     border: solid 2px $blue-grey-200;
+    outline: none;
+
+    &:focus {
+      border: solid 2px $launchtime-cyan;
+      box-shadow: 0 0 6px rgba($launchtime-cyan, 1);
+    }
+
   }
 
 }
 
 .search-results {
+
+  margin-top: 1em;
 
   & > ul {
     list-style: none;
@@ -61,6 +73,34 @@
 
     }
 
+  }
+
+}
+
+.search-results-count,
+.search-results-item {
+  padding: 0 1em;
+}
+
+.search-results-count {
+
+  color: $blue-grey-600;
+  margin-bottom: .4em;
+
+  strong {
+    color: $blue-grey-900;
+  }
+
+}
+
+.search-results-item-active {
+
+  box-shadow: 0 0 9px rgba($launchtime-cyan, 1);
+  margin-top: -1px;
+
+  .business-card {
+    border-top: solid 1px white;
+    border-bottom: solid 1px white;
   }
 
 }
