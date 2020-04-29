@@ -1,6 +1,12 @@
 import React from 'react';
 
-const Input = ({ type = 'text', id, name, ...rest }) => {
+import ClassName from 'models/classname';
+
+const Input = ({ type = 'text', id, name, className, ...rest }) => {
+
+  const inputClass = new ClassName('input');
+
+  inputClass.addIf(className, className);
 
   if ( !name && id ) {
     name = id;
@@ -14,7 +20,7 @@ const Input = ({ type = 'text', id, name, ...rest }) => {
     name
   }
 
-  return <input className="input" {...inputProps} />
+  return <input key={rest.defaultValue} className={inputClass.className} {...inputProps} />
 }
 
 export default Input;

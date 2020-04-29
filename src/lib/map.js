@@ -1,4 +1,14 @@
 /**
+ * getCurrentMapRef
+ */
+
+export function getCurrentMapRef(ref = {}) {
+  const { current = {} } = ref;
+  const { leafletElement } = current;
+  return leafletElement;
+}
+
+/**
  * promiseToFlyTo
  * @description
  */

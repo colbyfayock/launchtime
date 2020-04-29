@@ -7,10 +7,11 @@ import { isDomAvailable } from 'lib/util';
 
 const DEFAULT_MAP_SERVICE = 'Mapbox Streets';
 
-const Map = ( props ) => {
+const Map = React.forwardRef(( props, ref ) => {
   const { children, className, defaultBaseMap = DEFAULT_MAP_SERVICE, mapEffect, ...rest } = props;
 
-  const mapRef = useRef();
+  const defaultRef = useRef();
+  const mapRef = ref || defaultRef;
 
   useConfigureLeaflet();
 
@@ -53,7 +54,7 @@ const Map = ( props ) => {
       </BaseMap>
     </div>
   );
-};
+});
 
 Map.propTypes = {
   children: PropTypes.node,

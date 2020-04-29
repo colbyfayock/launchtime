@@ -30,25 +30,6 @@
   padding: 1em 0;
 }
 
-.search-form {
-
-  padding: 0 1em;
-
-  .input {
-
-    width: 100%;
-    border: solid 2px $blue-grey-200;
-    outline: none;
-
-    &:focus {
-      border: solid 2px $launchtime-cyan;
-      box-shadow: 0 0 6px rgba($launchtime-cyan, 1);
-    }
-
-  }
-
-}
-
 .search-results {
 
   margin-top: 1em;

@@ -2,17 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import L from 'leaflet';
 
-import { latlngFromFeature, findFeatureById } from 'lib/map';
+import { getCurrentMapRef, latlngFromFeature, findFeatureById } from 'lib/map';
+import { getZipcodeByLatlng } from 'lib/mapbox';
 import { isDomAvailable } from 'lib/util';
 import { useSearch } from 'hooks';
 
 import Layout from 'components/Layout';
 import Container from 'components/Container';
 import Map from 'components/Map';
-import Form from 'components/Form';
-import FormRow from 'components/FormRow';
-import Input from 'components/Input';
+
 import BusinessCard from 'components/BusinessCard';
+import SearchInput from 'components/SearchInput';
 
 import businessesGeojson from 'data/businesses.json';
 import utensilsIcon from 'assets/images/utensils-marker.png';
@@ -27,9 +27,11 @@ const DEFAULT_CENTER = [DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng];
 const DEFAULT_ZOOM = 14;
 
 const SearchPage = () => {
-  const featureGroupRef = useRef()
+  const featureGroupRef = useRef();
+  const mapRef = useRef();
 
   let what;
+  let where;
   let icon;
   let iconActive;
 
@@ -37,6 +39,7 @@ const SearchPage = () => {
     const currentUrl = new URL(window.location.href);
 
     what = currentUrl.searchParams.get('what');
+    where = currentUrl.searchParams.get('where');
 
     icon = new L.Icon({
       iconUrl: utensilsIcon,
@@ -55,10 +58,11 @@ const SearchPage = () => {
     });
   }
 
-  const [search, updateSearch ] = useState({
-    query: what
+  const [search, updateSearch] = useState({
+    query: what,
+    postalcode: where
   });
-  const { query } = search;
+  const { query, postalcode } = search;
 
   const [activeBusiness, updateActiveBusiness] = useState();
 
@@ -79,8 +83,19 @@ const SearchPage = () => {
     className: 'search-map',
     center: DEFAULT_CENTER,
     zoom: DEFAULT_ZOOM,
-    mapEffect
+    mapEffect,
+    ref: mapRef
   };
+
+  useEffect(() => {
+    const map = getCurrentMapRef(mapRef);
+    map.on('locationfound', handleOnLocationFound);
+    map.on('locationerror', handleOnLocationError);
+    return () => {
+      map.off('locationfound', handleOnLocationFound);
+      map.off('locationerror', handleOnLocationError);
+    }
+  }, [])
 
   /**
    * mapEffect
@@ -175,6 +190,39 @@ const SearchPage = () => {
     updateActiveBusiness(undefined);
   }
 
+  /**
+   * handleOnUseLocation
+   */
+
+  function handleOnUseLocation() {
+    const map = getCurrentMapRef(mapRef);
+    map.locate({
+      setView: true
+    });
+  }
+
+  /**
+   * handleOnLocationFound
+   */
+
+  async function handleOnLocationFound({ latlng } = {}) {
+    const postalcode = await getZipcodeByLatlng(latlng);
+    updateSearch(prev => {
+      return {
+        ...prev,
+        postalcode
+      }
+    });
+  }
+
+  /**
+   * handleOnLocationError
+   */
+
+  function handleOnLocationError() {
+
+  }
+
   return (
     <Layout pageName="search">
       <Helmet>
@@ -182,11 +230,14 @@ const SearchPage = () => {
       </Helmet>
       <Container className="search">
         <div className="search-sidebar">
-          <Form className="search-form">
-            <FormRow>
-              <Input defaultValue={what} placeholder="Ex: pizza, bbq, breakfast" onChange={handleOnSearchChange} />
-            </FormRow>
-          </Form>
+
+          <SearchInput
+            defaultQuery={query}
+            defaultPostalCode={postalcode}
+            onQueryChange={handleOnSearchChange}
+            onUseLocation={handleOnUseLocation}
+          />
+
           <div className="search-results">
             <p className="search-results-count">
               Showing <strong>{ businessResults.length }</strong> results...
