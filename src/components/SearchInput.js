@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { FaLocationArrow, FaMapMarkerAlt } from 'react-icons/fa';
 
 import Form from 'components/Form';
@@ -7,6 +7,10 @@ import Input from 'components/Input';
 
 const SearchInput = props => {
   const { defaultQuery, defaultPostalCode, onQueryChange, onUseLocation } = props;
+
+  /**
+   * handleOnUseLocation
+   */
 
   function handleOnUseLocation(e) {
     e.preventDefault();
@@ -25,7 +29,7 @@ const SearchInput = props => {
           <label htmlFor="postalcode">
             <FaMapMarkerAlt />
           </label>
-          <Input id="postalcode" className="search-input-postal-input" defaultValue={defaultPostalCode} placeholder="12345" />
+          <Input id="postalcode" className="search-input-postal-input" defaultValue={defaultPostalCode} placeholder="12345" maxLength={5} />
         </div>
         <button className="search-input-use-location" onClick={handleOnUseLocation}>
           <FaLocationArrow /> Use My Location
