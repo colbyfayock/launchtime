@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import L from 'leaflet';
 
 import { getCurrentMapRef, latlngFromFeature, findFeatureById } from 'lib/map';
-import { getZipcodeByLatlng } from 'lib/mapbox';
+import { getPostalCodeByLatlng } from 'lib/mapbox';
 import { isDomAvailable } from 'lib/util';
 import { useSearch } from 'hooks';
 
@@ -206,7 +206,7 @@ const SearchPage = () => {
    */
 
   async function handleOnLocationFound({ latlng } = {}) {
-    const postalcode = await getZipcodeByLatlng(latlng);
+    const postalcode = await getPostalCodeByLatlng(latlng);
     updateSearch(prev => {
       return {
         ...prev,
