@@ -5,6 +5,7 @@ import L from 'leaflet';
 import { getCurrentMapRef, latlngFromFeature, findFeatureById,  } from 'lib/map';
 import { getPostalCodeByLatlng, getLatlngByLocation } from 'lib/mapbox';
 import { isDomAvailable } from 'lib/util';
+import { isPostalCode } from 'lib/location';
 import { useSearch } from 'hooks';
 
 import Layout from 'components/Layout';
@@ -60,7 +61,7 @@ const SearchPage = () => {
 
   const [search, updateSearch] = useState({
     query: what,
-    postalcode: /\d{5}/.test(where) ? where : undefined
+    postalcode: isPostalCode(where) ? where : undefined
   });
   const { query, postalcode } = search;
 
@@ -103,6 +104,8 @@ const SearchPage = () => {
       const latlng = await getLatlngByLocation({ location: where });
 
       map.setView(latlng);
+
+      if ( isPostalCode(where) ) return;
 
       const postalcode = await getPostalCodeByLatlng(latlng);
 
