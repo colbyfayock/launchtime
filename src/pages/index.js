@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { navigate } from 'gatsby';
 import Helmet from 'react-helmet';
-
-import { findPostalCodeByLocation } from 'lib/mapbox';
 
 import Layout from 'components/Layout';
 import Container from 'components/Container';
@@ -14,14 +12,7 @@ import Input from 'components/Input';
 import Button from 'components/Button';
 import Logo from 'components/Logo';
 
-const defaultRequestState = {
-  isLoading: false
-}
-
 const IndexPage = () => {
-  const [submitState, updateSubmitState] = useState(defaultRequestState);
-  const { isLoading: submitIsLoading } = submitState;
-
   /**
    * handleOnSearchSubmit
    */
@@ -47,38 +38,7 @@ const IndexPage = () => {
     const where = fields.find(field => field.name === 'search-where').value;
     const isPostalCode = where && /\d{5}/.test(where);
 
-    if ( isPostalCode ) {
-      navigate(`/search?what=${encodeURIComponent(what)}&where=${encodeURIComponent(where)}`);
-      return;
-    }
-
-    updateSubmitState(prev => {
-      return {
-        ...prev,
-        isLoading: true
-      }
-    })
-
-    let postalCode;
-
-    try {
-      postalCode = await findPostalCodeByLocation({
-        location: where
-      });
-    } catch(e) {
-      console.log('e', e);
-    }
-
-    updateSubmitState(prev => {
-      return {
-        ...prev,
-        isLoading: false
-      }
-    })
-
-    navigate(`/search?what=${encodeURIComponent(what)}&where=${postalCode}`);
-
-    return;
+    navigate(`/search?what=${encodeURIComponent(what)}&where=${encodeURIComponent(where)}`);
   }
 
   return (
@@ -103,7 +63,7 @@ const IndexPage = () => {
               <Input id="search-where" placeholder="Ex: Washington, DC" />
             </FormRow>
             <FormRow>
-              <Button color="cyan" disabled={submitIsLoading}>Find Some Food</Button>
+              <Button color="cyan">Find Some Food</Button>
             </FormRow>
           </Form>
         </Hero>

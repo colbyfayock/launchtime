@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import L from 'leaflet';
 
-import { getCurrentMapRef, latlngFromFeature, findFeatureById } from 'lib/map';
-import { getPostalCodeByLatlng } from 'lib/mapbox';
+import { getCurrentMapRef, latlngFromFeature, findFeatureById,  } from 'lib/map';
+import { getPostalCodeByLatlng, getLatlngByLocation } from 'lib/mapbox';
 import { isDomAvailable } from 'lib/util';
 import { useSearch } from 'hooks';
 
@@ -60,7 +60,7 @@ const SearchPage = () => {
 
   const [search, updateSearch] = useState({
     query: what,
-    postalcode: where
+    postalcode: /\d{5}/.test(where) ? where : undefined
   });
   const { query, postalcode } = search;
 
@@ -97,16 +97,23 @@ const SearchPage = () => {
     }
   }, [])
 
+  useEffect(() => {
+    async function request() {
+      const map = getCurrentMapRef(mapRef);
+      const response = await getLatlngByLocation({ location: where });
+      map.setView(response)
+    }
+    request();
+  }, [where])
+
   /**
    * mapEffect
    */
 
   async function mapEffect({ leafletElement: map } = {}) {
     if ( !map ) return;
-    let firstRun = false;
 
     if ( !featureGroupRef.current ) {
-      firstRun = true;
       featureGroupRef.current = L.featureGroup();
     }
 
@@ -135,11 +142,6 @@ const SearchPage = () => {
       featureGroupRef.current.addLayer(marker);
       map.addLayer(marker);
     });
-
-    if ( firstRun ) {
-      const bounds = featureGroupRef.current.getBounds();
-      map.fitBounds(bounds);
-    }
   }
 
   /**

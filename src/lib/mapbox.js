@@ -7,12 +7,16 @@ const MAPBOX_API_HOST = 'https://api.mapbox.com';
 const MAPBOX_REVERSE_GEOCODE_ENDPOINT = `${MAPBOX_API_HOST}/geocoding/v5/mapbox.places/{longitude},{latitude}.json`;
 const MAPBOX_FORWARD_GEOCODE_ENDPOINT = `${MAPBOX_API_HOST}/geocoding/v5/mapbox.places/{search_text}.json`;
 
+/************
+ * Requests *
+ ************/
+
 /**
- * findPostalCodeByLocation
+ * getForwardLookup
  * @param {object} settings
  */
 
-export async function findPostalCodeByLocation({ location }) {
+export async function getForwardLookup({ location } = {}) {
   let url = MAPBOX_FORWARD_GEOCODE_ENDPOINT;
   let response;
 
@@ -22,7 +26,24 @@ export async function findPostalCodeByLocation({ location }) {
   try {
     response = await axios.get(url);
   } catch(e) {
-    console.log('Failed to find latlng', e);
+    console.log('Failed to forward lookup', location, e);
+  }
+
+  return response;
+}
+
+/**
+ * findPostalCodeByLocation
+ * @param {object} settings
+ */
+
+export async function findPostalCodeByLocation({ location }) {
+  let response;
+
+  try {
+    response = await getForwardLookup({ location });
+  } catch(e) {
+    console.log('Failed to find latlng', location, e);
   }
 
   const { data = {} } = response;
@@ -61,12 +82,36 @@ export async function getPostalCodeByLatlng({lat, lng} = {}) {
 }
 
 /**
+ * getLatlngByLocation
+ * @param {object} settings
+ */
+
+export async function getLatlngByLocation({ location }) {
+  let response;
+
+  try {
+    response = await getForwardLookup({ location });
+  } catch(e) {
+    console.log('Failed to get coordinates', location, e);
+  }
+
+  const { data = {} } = response;
+  const { features = [] } = data;
+
+  return findLatlngInFeatures(features);
+}
+
+/***********
+ * Utility *
+ ***********/
+
+/**
  * findPostalCodeInFeatures
  * @param {object} settings
  */
 
 function findPostalCodeInFeatures(features = []) {
-
+  console.log('features', features)
   const postcodePlaceType = features.find(({ place_type }) => place_type.includes('postcode'));
 
   if ( postcodePlaceType ) {
@@ -81,5 +126,17 @@ function findPostalCodeInFeatures(features = []) {
     const postalCode = context.find(({id } = {}) => id.includes('postcode'))?.text;
     return postalCode;
   }
+}
 
+/**
+ * findLatlngInFeatures
+ * @param {object} settings
+ */
+
+function findLatlngInFeatures(features = []) {
+  const { center = [] } = features[0] || {};
+  return {
+    lat: center[1],
+    lng: center[0]
+  }
 }
