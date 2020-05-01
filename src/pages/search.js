@@ -100,8 +100,18 @@ const SearchPage = () => {
   useEffect(() => {
     async function request() {
       const map = getCurrentMapRef(mapRef);
-      const response = await getLatlngByLocation({ location: where });
-      map.setView(response)
+      const latlng = await getLatlngByLocation({ location: where });
+
+      map.setView(latlng);
+
+      const postalcode = await getPostalCodeByLatlng(latlng);
+
+      updateSearch(prev => {
+        return {
+          ...prev,
+          postalcode
+        }
+      });
     }
     request();
   }, [where])

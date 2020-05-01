@@ -111,7 +111,6 @@ export async function getLatlngByLocation({ location }) {
  */
 
 function findPostalCodeInFeatures(features = []) {
-  console.log('features', features)
   const postcodePlaceType = features.find(({ place_type }) => place_type.includes('postcode'));
 
   if ( postcodePlaceType ) {
