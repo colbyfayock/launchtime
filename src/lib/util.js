@@ -7,3 +7,20 @@
 export function isDomAvailable() {
   return typeof window !== 'undefined' && !!window.document && !!window.document.createElement;
 }
+
+/**
+ * sortByObjectKey
+ * @param {array} array Array to sort
+ * @param {string} key Object key to sort on
+ * @via https://stackoverflow.com/questions/8837454/sort-array-of-objects-by-single-key-with-date-value
+ */
+
+export function sortByObjectKey(array, key) {
+  return array.sort(function(a, b) {
+    const keyA = a[key];
+    const keyB = b[key];
+    if ( keyA < keyB ) return -1;
+    if ( keyA > keyB ) return 1;
+    return 0;
+  });
+}

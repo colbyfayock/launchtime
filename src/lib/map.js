@@ -1,3 +1,7 @@
+import { getCoord, distance, point } from '@turf/turf';
+
+import { sortByObjectKey } from 'lib/util';
+
 /**
  * getCurrentMapRef
  */
@@ -75,4 +79,42 @@ export function latlngFromFeature(feature = {}) {
 export function findFeatureById(features, id) {
   if ( !Array.isArray(features) ) return;
   return features.find(({ properties } = {}) => properties?.id === id);
+}
+
+/**
+ * sortFeaturesByDistance
+ */
+
+export function sortFeaturesByDistance({ features, latlng }) {
+  if ( !latlng ) return features;
+
+  const featuresWithDistance = features.map(feature => {
+    return {
+      feature,
+      distance: getDistanceToLatlng(feature, latlng)
+    }
+  });
+
+  const sortedFeatures = sortByObjectKey(featuresWithDistance, 'distance');
+
+  return sortedFeatures.map(({ feature } = {}) => {
+    return {
+      ...feature
+    }
+  })
+}
+
+/**
+ * getDistanceToLatlng
+ * @param {object} feature Feature Point to calculate distance from
+ * @param {object} latlng Latlng to calculate distance to
+ */
+
+export function getDistanceToLatlng(feature, latlng) {
+  const featureCoordinates = getCoord(feature);
+  const from = point(featureCoordinates);
+  const to = point([latlng?.lng, latlng?.lat]);
+  return distance(from, to, {
+    units: 'miles'
+  });
 }

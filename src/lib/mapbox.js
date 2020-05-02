@@ -53,11 +53,11 @@ export async function findPostalCodeByLocation({ location }) {
 }
 
 /**
- * getPostalCodeByLatlng
+ * getLocationCodeByLatlng
  * @param {object} settings
  */
 
-export async function getPostalCodeByLatlng({lat, lng} = {}) {
+export async function getLocationCodeByLatlng({lat, lng} = {}) {
 
   let url = MAPBOX_REVERSE_GEOCODE_ENDPOINT;
   let response;
@@ -76,9 +76,15 @@ export async function getPostalCodeByLatlng({lat, lng} = {}) {
   const { features = [] } = data;
 
   const postalcodeFeature = features.find(({ place_type }) => place_type.includes('postcode'));
-  const { text } = postalcodeFeature || {};
+  const { text: postalcode, center = [] } = postalcodeFeature || {};
 
-  return text;
+  return {
+    postalcode,
+    latlng: {
+      lat: center[1],
+      lng: center[0]
+    }
+  };
 }
 
 /**

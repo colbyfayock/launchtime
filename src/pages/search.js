@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import L from 'leaflet';
 
-import { getCurrentMapRef, latlngFromFeature, findFeatureById,  } from 'lib/map';
-import { getPostalCodeByLatlng, getLatlngByLocation } from 'lib/mapbox';
+import { getCurrentMapRef, latlngFromFeature, findFeatureById, sortFeaturesByDistance } from 'lib/map';
+import { getLocationCodeByLatlng, getLatlngByLocation } from 'lib/mapbox';
 import { isDomAvailable } from 'lib/util';
 import { isPostalCode } from 'lib/location';
 import { useSearch } from 'hooks';
@@ -61,9 +61,10 @@ const SearchPage = () => {
 
   const [search, updateSearch] = useState({
     query: what,
-    postalcode: isPostalCode(where) ? where : undefined
+    postalcode: isPostalCode(where) ? where : undefined,
+    latlng: undefined
   });
-  const { query, postalcode } = search;
+  const { query, postalcode, latlng } = search;
 
   const [activeBusiness, updateActiveBusiness] = useState();
 
@@ -78,7 +79,10 @@ const SearchPage = () => {
     ]
   });
 
-  const businessResults = results.map(result => result.item );
+  const businessResults = sortFeaturesByDistance({
+    features: results,
+    latlng
+  });
 
   const mapSettings = {
     className: 'search-map',
@@ -101,18 +105,19 @@ const SearchPage = () => {
   useEffect(() => {
     async function request() {
       const map = getCurrentMapRef(mapRef);
-      const latlng = await getLatlngByLocation({ location: where });
+      const locationLatlng = await getLatlngByLocation({ location: where });
 
-      map.setView(latlng);
+      map.setView(locationLatlng);
 
       if ( isPostalCode(where) ) return;
 
-      const postalcode = await getPostalCodeByLatlng(latlng);
+      const { postalcode, latlng } = await getLocationCodeByLatlng(locationLatlng);
 
       updateSearch(prev => {
         return {
           ...prev,
-          postalcode
+          postalcode,
+          latlng
         }
       });
     }
@@ -221,7 +226,7 @@ const SearchPage = () => {
    */
 
   async function handleOnLocationFound({ latlng } = {}) {
-    const postalcode = await getPostalCodeByLatlng(latlng);
+    const postalcode = await getLocationCodeByLatlng(latlng);
     updateSearch(prev => {
       return {
         ...prev,

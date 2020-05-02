@@ -6,7 +6,7 @@ import Button from 'components/Button';
 const BusinessCard = ({ thumb, name, tags = [] }) => {
   return (
     <div className="business-card">
-      <img src={ thumb } alt={`Picture of ${name}`} />
+      <img src={ thumb } alt={name} />
       <div className="business-card-content">
         <div className="business-card-header">
           <p className="business-card-title">

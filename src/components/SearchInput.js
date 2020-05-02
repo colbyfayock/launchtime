@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { FaLocationArrow, FaMapMarkerAlt } from 'react-icons/fa';
 
 import Form from 'components/Form';

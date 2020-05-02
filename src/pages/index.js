@@ -36,7 +36,6 @@ const IndexPage = () => {
 
     const what = fields.find(field => field.name === 'search-what').value;
     const where = fields.find(field => field.name === 'search-where').value;
-    const isPostalCode = where && /\d{5}/.test(where);
 
     navigate(`/search?what=${encodeURIComponent(what)}&where=${encodeURIComponent(where)}`);
   }

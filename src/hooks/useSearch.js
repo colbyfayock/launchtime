@@ -18,6 +18,8 @@ export default function useSearch(options = {}) {
     })
   }
 
+  results = results.map(result => result.item );
+
   return {
     results
   }
