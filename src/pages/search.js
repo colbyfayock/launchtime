@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Helmet from 'react-helmet';
+import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 
 import { getCurrentMapRef, latlngFromFeature, findFeatureById, sortFeaturesByDistance } from 'lib/map';
@@ -30,6 +31,7 @@ const DEFAULT_ZOOM = 14;
 const SearchPage = () => {
   const featureGroupRef = useRef();
   const mapRef = useRef();
+  const markerRef = useRef();
 
   let what;
   let where;
@@ -95,10 +97,8 @@ const SearchPage = () => {
   useEffect(() => {
     const map = getCurrentMapRef(mapRef);
     map.on('locationfound', handleOnLocationFound);
-    map.on('locationerror', handleOnLocationError);
     return () => {
       map.off('locationfound', handleOnLocationFound);
-      map.off('locationerror', handleOnLocationError);
     }
   }, [])
 
@@ -226,21 +226,32 @@ const SearchPage = () => {
    */
 
   async function handleOnLocationFound({ latlng } = {}) {
-    const postalcode = await getLocationCodeByLatlng(latlng);
+    const location = await getLocationCodeByLatlng(latlng);
     updateSearch(prev => {
       return {
         ...prev,
-        postalcode
+        ...location
       }
     });
   }
 
   /**
-   * handleOnLocationError
+   * handleOnMarkerDragEnd
    */
 
-  function handleOnLocationError() {
+  function handleOnMarkerDragEnd() {
+    const { current = {} } = markerRef;
+    const { leafletElement: marker } = current;
 
+    if ( !marker ) return;
+
+    updateSearch(prev => {
+      return {
+        ...prev,
+        where: undefined,
+        latlng: marker.getLatLng()
+      }
+    });
   }
 
   return (
@@ -283,7 +294,11 @@ const SearchPage = () => {
             </ul>
           </div>
         </div>
-        <Map {...mapSettings} />
+        <Map {...mapSettings}>
+          { latlng && (
+            <Marker ref={markerRef} position={latlng} draggable={true} onDragend={handleOnMarkerDragEnd} />
+          )}
+        </Map>
       </Container>
     </Layout>
   );
