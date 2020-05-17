@@ -9,7 +9,9 @@ const Header = () => {
     <header className="header">
       <Container>
         <p className="header-logo">
-          <Link to="/"><Logo /></Link>
+          <Link to="/">
+            <Logo />
+          </Link>
         </p>
         <div className="header-account">
           <p className="header-avatar">

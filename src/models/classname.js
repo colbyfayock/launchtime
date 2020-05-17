@@ -1,10 +1,10 @@
 class ClassName {
-  constructor (baseClass) {
+  constructor( baseClass ) {
     this.className = baseClass;
   }
 
-  addIf(className, condition) {
-    if ( !!condition ) {
+  addIf( className, condition ) {
+    if ( condition ) {
       this.className = `${this.className} ${className}`;
     }
     return this.className;

@@ -6,7 +6,7 @@ import { sortByObjectKey } from 'lib/util';
  * getCurrentMapRef
  */
 
-export function getCurrentMapRef(ref = {}) {
+export function getCurrentMapRef( ref = {}) {
   const { current = {} } = ref;
   const { leafletElement } = current;
   return leafletElement;
@@ -33,7 +33,7 @@ export function promiseToFlyTo( map, { zoom, center }) {
     const mapZoom = zoom || map.getZoom();
 
     map.flyTo( mapCenter, mapZoom, {
-      duration: 2
+      duration: 2,
     });
 
     map.once( 'moveend', () => {
@@ -56,17 +56,16 @@ export function getCurrentLocation() {
   });
 }
 
-
 /**
  * latlngFromFeature
  */
 
-export function latlngFromFeature(feature = {}) {
+export function latlngFromFeature( feature = {}) {
   const { geometry = {} } = feature;
   const { coordinates = [], type } = geometry;
 
   if ( type !== 'Point' ) {
-    throw new Error(`latlngFromFeature: Invalid geometry type ${type}`)
+    throw new Error( `latlngFromFeature: Invalid geometry type ${type}` );
   }
 
   return [coordinates[1], coordinates[0]];
@@ -76,9 +75,9 @@ export function latlngFromFeature(feature = {}) {
  * findFeatureById
  */
 
-export function findFeatureById(features, id) {
-  if ( !Array.isArray(features) ) return;
-  return features.find(({ properties } = {}) => properties?.id === id);
+export function findFeatureById( features, id ) {
+  if ( !Array.isArray( features )) return;
+  return features.find(({ properties } = {}) => properties?.id === id );
 }
 
 /**
@@ -88,20 +87,20 @@ export function findFeatureById(features, id) {
 export function sortFeaturesByDistance({ features, latlng }) {
   if ( !latlng ) return features;
 
-  const featuresWithDistance = features.map(feature => {
+  const featuresWithDistance = features.map(( feature ) => {
     return {
       feature,
-      distance: getDistanceToLatlng(feature, latlng)
-    }
+      distance: getDistanceToLatlng( feature, latlng ),
+    };
   });
 
-  const sortedFeatures = sortByObjectKey(featuresWithDistance, 'distance');
+  const sortedFeatures = sortByObjectKey( featuresWithDistance, 'distance' );
 
   return sortedFeatures.map(({ feature } = {}) => {
     return {
-      ...feature
-    }
-  })
+      ...feature,
+    };
+  });
 }
 
 /**
@@ -110,11 +109,11 @@ export function sortFeaturesByDistance({ features, latlng }) {
  * @param {object} latlng Latlng to calculate distance to
  */
 
-export function getDistanceToLatlng(feature, latlng) {
-  const featureCoordinates = getCoord(feature);
-  const from = point(featureCoordinates);
+export function getDistanceToLatlng( feature, latlng ) {
+  const featureCoordinates = getCoord( feature );
+  const from = point( featureCoordinates );
   const to = point([latlng?.lng, latlng?.lat]);
-  return distance(from, to, {
-    units: 'miles'
+  return distance( from, to, {
+    units: 'miles',
   });
 }

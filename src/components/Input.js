@@ -1,12 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import ClassName from 'models/classname';
 
 const Input = ({ type = 'text', id, name, className, ...rest }) => {
+  const inputClass = new ClassName( 'input' );
 
-  const inputClass = new ClassName('input');
-
-  inputClass.addIf(className, className);
+  inputClass.addIf( className, className );
 
   if ( !name && id ) {
     name = id;
@@ -17,10 +17,17 @@ const Input = ({ type = 'text', id, name, className, ...rest }) => {
   const inputProps = {
     ...rest,
     id,
-    name
-  }
+    name,
+  };
 
-  return <input key={rest.defaultValue} className={inputClass.className} {...inputProps} />
-}
+  return <input key={rest.defaultValue} className={inputClass.className} type={type} {...inputProps} />;
+};
+
+Input.propTypes = {
+  className: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  type: PropTypes.string,
+};
 
 export default Input;

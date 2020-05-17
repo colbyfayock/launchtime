@@ -1,26 +1,26 @@
 import Fuse from 'fuse.js';
 
-export default function useSearch(options = {}) {
+export default function useSearch( options = {}) {
   const { data, keys = [], query } = options;
   let results;
 
   if ( query && query !== '' ) {
-    const fuse = new Fuse(data, {
-      keys
-    })
+    const fuse = new Fuse( data, {
+      keys,
+    });
 
-    results = fuse.search(query)
+    results = fuse.search( query );
   } else {
-    results = data.map(d => {
+    results = data.map(( d ) => {
       return {
-        item: d
-      }
-    })
+        item: d,
+      };
+    });
   }
 
-  results = results.map(result => result.item );
+  results = results.map(( result ) => result.item );
 
   return {
-    results
-  }
+    results,
+  };
 }

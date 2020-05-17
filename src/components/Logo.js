@@ -8,7 +8,7 @@ const Logo = () => {
       <img src={logo} alt="LaunchTime Logo" />
       LaunchTime
     </span>
-  )
-}
+  );
+};
 
 export default Logo;

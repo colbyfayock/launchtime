@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet';
 
@@ -23,7 +23,7 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
 const DEFAULT_LOCATION = {
   lat: 0,
-  lng: 0
+  lng: 0,
 };
 const DEFAULT_CENTER = [DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng];
 const DEFAULT_ZOOM = 14;
@@ -38,18 +38,18 @@ const SearchPage = () => {
   let icon;
   let iconActive;
 
-  if ( isDomAvailable() ) {
-    const currentUrl = new URL(window.location.href);
+  if ( isDomAvailable()) {
+    const currentUrl = new URL( window.location.href );
 
-    what = currentUrl.searchParams.get('what');
-    where = currentUrl.searchParams.get('where');
+    what = currentUrl.searchParams.get( 'what' );
+    where = currentUrl.searchParams.get( 'where' );
 
     icon = new L.Icon({
       iconUrl: utensilsIcon,
       iconSize: [26, 26],
       popupAnchor: [0, -15],
       shadowUrl: markerShadow,
-      shadowAnchor: [13, 28]
+      shadowAnchor: [13, 28],
     });
 
     iconActive = new L.Icon({
@@ -57,33 +57,30 @@ const SearchPage = () => {
       iconSize: [26, 26],
       popupAnchor: [0, -15],
       shadowUrl: markerShadow,
-      shadowAnchor: [13, 28]
+      shadowAnchor: [13, 28],
     });
   }
 
   const [search, updateSearch] = useState({
     query: what,
-    postalcode: isPostalCode(where) ? where : undefined,
-    latlng: undefined
+    postalcode: isPostalCode( where ) ? where : undefined,
+    latlng: undefined,
   });
   const { query, postalcode, latlng } = search;
 
   const [activeBusiness, updateActiveBusiness] = useState();
 
-  const businesses = businessesGeojson?.features.map(feature => feature);
+  const businesses = businessesGeojson?.features.map(( feature ) => feature );
 
   const { results } = useSearch({
     query,
     data: businesses,
-    keys: [
-      'properties.name',
-      'properties.tags'
-    ]
+    keys: ['properties.name', 'properties.tags'],
   });
 
   const businessResults = sortFeaturesByDistance({
     features: results,
-    latlng
+    latlng,
   });
 
   const mapSettings = {
@@ -91,38 +88,38 @@ const SearchPage = () => {
     center: DEFAULT_CENTER,
     zoom: DEFAULT_ZOOM,
     mapEffect,
-    ref: mapRef
+    ref: mapRef,
   };
 
   useEffect(() => {
-    const map = getCurrentMapRef(mapRef);
-    map.on('locationfound', handleOnLocationFound);
+    const map = getCurrentMapRef( mapRef );
+    map.on( 'locationfound', handleOnLocationFound );
     return () => {
-      map.off('locationfound', handleOnLocationFound);
-    }
-  }, [])
+      map.off( 'locationfound', handleOnLocationFound );
+    };
+  }, []);
 
   useEffect(() => {
     async function request() {
-      const map = getCurrentMapRef(mapRef);
+      const map = getCurrentMapRef( mapRef );
       const locationLatlng = await getLatlngByLocation({ location: where });
 
-      map.setView(locationLatlng);
+      map.setView( locationLatlng );
 
-      if ( isPostalCode(where) ) return;
+      if ( isPostalCode( where )) return;
 
-      const { postalcode, latlng } = await getLocationCodeByLatlng(locationLatlng);
+      const { postalcode, latlng } = await getLocationCodeByLatlng( locationLatlng );
 
-      updateSearch(prev => {
+      updateSearch(( prev ) => {
         return {
           ...prev,
           postalcode,
-          latlng
-        }
+          latlng,
+        };
       });
     }
     request();
-  }, [where])
+  }, [where]);
 
   /**
    * mapEffect
@@ -135,30 +132,30 @@ const SearchPage = () => {
       featureGroupRef.current = L.featureGroup();
     }
 
-    featureGroupRef.current.eachLayer(layer => {
-      featureGroupRef.current.removeLayer(layer)
-      map.removeLayer(layer);
+    featureGroupRef.current.eachLayer(( layer ) => {
+      featureGroupRef.current.removeLayer( layer );
+      map.removeLayer( layer );
     });
 
-    businessResults.forEach(result => {
+    businessResults.forEach(( result ) => {
       const { properties = {} } = result;
       const { id } = properties;
-      const location = latlngFromFeature(result);
+      const location = latlngFromFeature( result );
 
       const isActive = id === activeBusiness?.properties?.id;
 
-      const marker = L.marker(location, {
+      const marker = L.marker( location, {
         icon: isActive ? iconActive : icon,
         zIndexOffset: 999,
         riseOnHover: true,
-        id
+        id,
       });
 
-      marker.on('mouseover', handleOnMarkerHoverOn);
-      marker.on('mouseout', handleOnMarkerHoverOff);
+      marker.on( 'mouseover', handleOnMarkerHoverOn );
+      marker.on( 'mouseout', handleOnMarkerHoverOff );
 
-      featureGroupRef.current.addLayer(marker);
-      map.addLayer(marker);
+      featureGroupRef.current.addLayer( marker );
+      map.addLayer( marker );
     });
   }
 
@@ -168,12 +165,12 @@ const SearchPage = () => {
 
   function handleOnSearchChange({ currentTarget } = {}) {
     const value = currentTarget.value;
-    updateSearch(prev => {
+    updateSearch(( prev ) => {
       return {
         ...prev,
-        query: value
-      }
-    })
+        query: value,
+      };
+    });
   }
 
   /**
@@ -181,8 +178,8 @@ const SearchPage = () => {
    */
 
   function handleOnBusinessHoverOn({ currentTarget = {} } = {}) {
-    const business = findFeatureById(businesses, currentTarget?.id);
-    updateActiveBusiness(business);
+    const business = findFeatureById( businesses, currentTarget?.id );
+    updateActiveBusiness( business );
   }
 
   /**
@@ -190,7 +187,7 @@ const SearchPage = () => {
    */
 
   function handleOnBusinessHoverOff() {
-    updateActiveBusiness(undefined);
+    updateActiveBusiness( undefined );
   }
 
   /**
@@ -198,8 +195,8 @@ const SearchPage = () => {
    */
 
   function handleOnMarkerHoverOn({ target = {} } = {}) {
-    const business = findFeatureById(businesses, target?.options?.id);
-    updateActiveBusiness(business);
+    const business = findFeatureById( businesses, target?.options?.id );
+    updateActiveBusiness( business );
   }
 
   /**
@@ -207,7 +204,7 @@ const SearchPage = () => {
    */
 
   function handleOnMarkerHoverOff() {
-    updateActiveBusiness(undefined);
+    updateActiveBusiness( undefined );
   }
 
   /**
@@ -215,9 +212,9 @@ const SearchPage = () => {
    */
 
   function handleOnUseLocation() {
-    const map = getCurrentMapRef(mapRef);
+    const map = getCurrentMapRef( mapRef );
     map.locate({
-      setView: true
+      setView: true,
     });
   }
 
@@ -226,12 +223,12 @@ const SearchPage = () => {
    */
 
   async function handleOnLocationFound({ latlng } = {}) {
-    const location = await getLocationCodeByLatlng(latlng);
-    updateSearch(prev => {
+    const location = await getLocationCodeByLatlng( latlng );
+    updateSearch(( prev ) => {
       return {
         ...prev,
-        ...location
-      }
+        ...location,
+      };
     });
   }
 
@@ -245,12 +242,12 @@ const SearchPage = () => {
 
     if ( !marker ) return;
 
-    updateSearch(prev => {
+    updateSearch(( prev ) => {
       return {
         ...prev,
         where: undefined,
-        latlng: marker.getLatLng()
-      }
+        latlng: marker.getLatLng(),
+      };
     });
   }
 
@@ -261,7 +258,6 @@ const SearchPage = () => {
       </Helmet>
       <Container className="search">
         <div className="search-sidebar">
-
           <SearchInput
             defaultQuery={query}
             defaultPostalCode={postalcode}
@@ -274,30 +270,34 @@ const SearchPage = () => {
               Showing <strong>{ businessResults.length }</strong> results...
             </p>
             <ul>
-              {businessResults.map((business = {}, i) => {
+              { businessResults.map(( business = {}) => {
                 const { properties = {} } = business;
                 const { id } = properties;
-                const location = latlngFromFeature(business);
+                const location = latlngFromFeature( business );
                 const isActive = activeBusiness?.properties?.id === id;
                 let itemClass = 'search-results-item';
 
                 if ( isActive ) {
-                  itemClass = `${itemClass} search-results-item-active`
+                  itemClass = `${itemClass} search-results-item-active`;
                 }
 
                 return (
-                  <li key={id} id={id} className={itemClass} onMouseEnter={handleOnBusinessHoverOn} onMouseLeave={handleOnBusinessHoverOff}>
+                  <li
+                    key={id}
+                    id={id}
+                    className={itemClass}
+                    onMouseEnter={handleOnBusinessHoverOn}
+                    onMouseLeave={handleOnBusinessHoverOff}
+                  >
                     <BusinessCard location={location} {...properties} />
                   </li>
-                )
-              })}
+                );
+              }) }
             </ul>
           </div>
         </div>
         <Map {...mapSettings}>
-          { latlng && (
-            <Marker ref={markerRef} position={latlng} draggable={true} onDragend={handleOnMarkerDragEnd} />
-          )}
+          { latlng && <Marker ref={markerRef} position={latlng} draggable={true} onDragend={handleOnMarkerDragEnd} /> }
         </Map>
       </Container>
     </Layout>

@@ -15,8 +15,8 @@ export function isDomAvailable() {
  * @via https://stackoverflow.com/questions/8837454/sort-array-of-objects-by-single-key-with-date-value
  */
 
-export function sortByObjectKey(array, key) {
-  return array.sort(function(a, b) {
+export function sortByObjectKey( array, key ) {
+  return array.sort( function ( a, b ) {
     const keyA = a[key];
     const keyB = b[key];
     if ( keyA < keyB ) return -1;

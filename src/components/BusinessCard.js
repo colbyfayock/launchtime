@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { FaPhone, FaDirections, FaUtensils, FaStar, FaDollarSign } from 'react-icons/fa';
 
@@ -6,12 +7,10 @@ import Button from 'components/Button';
 const BusinessCard = ({ thumb, name, tags = [] }) => {
   return (
     <div className="business-card">
-      <img src={ thumb } alt={name} />
+      <img src={thumb} alt={name} />
       <div className="business-card-content">
         <div className="business-card-header">
-          <p className="business-card-title">
-            { name }
-          </p>
+          <p className="business-card-title">{ name }</p>
           <ul className="business-card-meta">
             <li>
               <span className="business-card-rating">
@@ -31,9 +30,7 @@ const BusinessCard = ({ thumb, name, tags = [] }) => {
             </li>
           </ul>
         </div>
-        <p className="business-card-tags">
-          { tags.join(', ') }
-        </p>
+        <p className="business-card-tags">{ tags.join( ', ' ) }</p>
         <div className="business-card-actions">
           <ul className="business-card-actions-info">
             <li>
@@ -62,14 +59,18 @@ const BusinessCard = ({ thumb, name, tags = [] }) => {
             </li>
           </ul>
           <div className="business-card-actions-order">
-            <Button color="cyan">
-              Order Now
-            </Button>
+            <Button color="cyan">Order Now</Button>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
+BusinessCard.propTypes = {
+  name: PropTypes.string,
+  tags: PropTypes.array,
+  thumb: PropTypes.string,
+};
 
 export default BusinessCard;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { navigate } from 'gatsby';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 import Layout from 'components/Layout';
 import Container from 'components/Container';
@@ -17,27 +17,27 @@ const IndexPage = () => {
    * handleOnSearchSubmit
    */
 
-  async function handleOnSearchSubmit(e = {}) {
+  async function handleOnSearchSubmit( e = {}) {
     e.preventDefault();
 
     const { currentTarget = {} } = e;
     const { elements } = currentTarget;
 
-    const fields = Array.from(elements).map(element => {
+    const fields = Array.from( elements ).map(( element ) => {
       const id = element.id;
       const name = element.name;
       const value = element.value;
       return {
         id,
         name,
-        value
-      }
+        value,
+      };
     });
 
-    const what = fields.find(field => field.name === 'search-what').value;
-    const where = fields.find(field => field.name === 'search-where').value;
+    const what = fields.find(( field ) => field.name === 'search-what' ).value;
+    const where = fields.find(( field ) => field.name === 'search-where' ).value;
 
-    navigate(`/search?what=${encodeURIComponent(what)}&where=${encodeURIComponent(where)}`);
+    navigate( `/search?what=${encodeURIComponent( what )}&where=${encodeURIComponent( where )}` );
   }
 
   return (
@@ -50,15 +50,11 @@ const IndexPage = () => {
         <Hero backgroundImage="/images/people-in-restaurant-eating.jpg">
           <Form onSubmit={handleOnSearchSubmit}>
             <FormRow>
-              <Label htmlFor="search-what">
-                What do you want to eat?
-              </Label>
+              <Label htmlFor="search-what">What do you want to eat?</Label>
               <Input id="search-what" placeholder="Ex: pizza, bbq, breakfast" />
             </FormRow>
             <FormRow>
-              <Label htmlFor="search-where">
-                Where do you want to eat it?
-              </Label>
+              <Label htmlFor="search-where">Where do you want to eat it?</Label>
               <Input id="search-where" placeholder="Ex: Washington, DC" />
             </FormRow>
             <FormRow>
@@ -69,14 +65,12 @@ const IndexPage = () => {
       </Container>
 
       <Container type="content" className="text-center">
-
         <div className="home-intro">
           <h2>
             <Logo />
           </h2>
           <p>Lunch doesn&apos;t have to be rocket science!</p>
         </div>
-
       </Container>
     </Layout>
   );
