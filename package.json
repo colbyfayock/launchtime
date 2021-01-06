@@ -5,7 +5,7 @@
   "author": "Colby Fayock <hello@colbyfayock.com>",
   "dependencies": {
     "@turf/turf": "^5.1.6",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "fuse.js": "^6.0.0",
     "gatsby": "^2.21.33",
     "gatsby-plugin-manifest": "^2.4.3",
